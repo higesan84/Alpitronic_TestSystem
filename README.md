@@ -2,7 +2,7 @@
 
 Uno scheletro deliberatamente piccolo ma **funzionante nella logica centrale** per il case study: esegue una sessione di ricarica simulata, visualizza letture live, valuta la tolleranza e carica il risultato su un MES mock.
 
-> **Conformità al case study:** C#/.NET con UI in **WinUI 3** (Windows App SDK), non WPF. L'interfaccia richiede Windows; la logica e i test sono portabili.
+> **Conformità al case study:** C#/.NET con UI in **WinUI 3** (Windows App SDK). L'interfaccia richiede Windows; la logica e i test sono portabili.
 
 ## Come lanciare
 
@@ -12,11 +12,8 @@ dotnet test .\Alpitronic.TestSystem.sln
 dotnet run --project .\src\Alpitronic.TestSystem.WinUI\Alpitronic.TestSystem.WinUI.csproj
 ```
 
-La demo esegue una sessione di 10 secondi con un DUT e un banco simulati. Inserire un seriale e premere **Start session**. Per vedere un FAIL, in `App.xaml.cs` impostare, ad esempio:
+La demo esegue una sessione di 10 secondi con un DUT e un banco simulati. Inserire un seriale e premere **Start session**. 
 
-```csharp
-new MockConnectorFactory(new MockTestScenario(DutEnergyFactor: 1.05m))
-```
 
 ## Struttura
 
