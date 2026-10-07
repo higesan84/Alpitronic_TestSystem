@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\Alpitronic.TestSystem.Domain\Alpitronic.TestSystem.Domain.csproj" />
+    <ProjectReference Include="..\Alpitronic.TestSystem.Application\Alpitronic.TestSystem.Application.csproj" />
+    <ProjectReference Include="..\Alpitronic.TestSystem.Mes.Contracts\Alpitronic.TestSystem.Mes.Contracts.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+     <AssemblyName>Alpitronic.TestSystem.Localization</AssemblyName>
+    <RootNamespace>Alpitronic.TestSystem.Localization</RootNamespace>
+  </PropertyGroup>
+</Project>

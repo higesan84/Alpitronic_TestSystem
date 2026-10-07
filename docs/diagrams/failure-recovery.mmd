@@ -1,0 +1,43 @@
+%% Separa errori ripetibili da azioni fisiche/non idempotenti e da upload recuperabili.
+flowchart TD
+    classDef source fill:#EBF8FF,stroke:#3182CE,color:#1A365D,stroke-width:2px
+    classDef decision fill:#FEFCBF,stroke:#B7791F,color:#744210,stroke-width:2px
+    classDef action fill:#E6FFFA,stroke:#2C7A7B,color:#153E3E,stroke-width:2px
+    classDef error fill:#FFF5F5,stroke:#E53E3E,color:#742A2A,stroke-width:2px
+    classDef done fill:#F0FFF4,stroke:#38A169,color:#22543D,stroke-width:2px
+
+    A([Errore o timeout]) --> B{"Quale confine?"}
+
+    B -->|"MES: download setup"| C{"Errore transitorio<br/>e tentativi disponibili?"}
+    C -- "Sì" --> D["Backoff con jitter<br/>e retry limitato"]
+    D --> E{"Operazione riuscita?"}
+    E -- "Sì" --> F([Riprendi sessione])
+    E -- "No" --> G([Errore sessione<br/>diagnostica completa])
+    C -- "No" --> G
+
+    B -->|"DUT / TS HW: start"| H{"Comando idempotente<br/>o stato interrogabile?"}
+    H -- "Sì" --> I["Verifica stato / retry sicuro"]
+    I --> J{"Start confermato?"}
+    J -- "Sì" --> F
+    J -- "No" --> G
+    H -- "No" --> K([Errore sessione<br/>non reinviare alla cieca])
+
+    B -->|"DUT / TS HW: letture"| L{"Riconnessione e ripresa<br/>supportate dal device?"}
+    L -- "Sì" --> M["Riconnetti entro timeout<br/>e verifica correlazione"]
+    M --> N{"Flusso completo e<br/>campioni coerenti?"}
+    N -- "Sì" --> F
+    N -- "No" --> G
+    L -- "No" --> G
+
+    B -->|"MES: upload risultato"| O["Salva outbox locale atomica<br/>session ID + idempotency key"]
+    O --> P([Completa test fisico<br/>come PendingUpload])
+    P --> Q["Worker retry asincrono"]
+    Q --> R{"ACK MES ricevuto?"}
+    R -- "Sì" --> S([Marca come Uploaded])
+    R -- "No" --> Q
+
+    class A source
+    class B,C,E,H,J,L,N,R decision
+    class D,I,M,O,Q action
+    class G,K error
+    class F,P,S done

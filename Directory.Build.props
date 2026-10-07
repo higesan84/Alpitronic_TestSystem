@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <!-- WHY [WIKI-ARCH]: qualità coerente è una decisione di repository, non una preferenza di
+         singolo progetto. Nullable e warning-as-errors rendono visibili problemi al confine. -->
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,26 @@
+%% Esplicita che il provider è sostituibile e non una dipendenza della UI.
+flowchart LR
+    classDef ui fill:#DCEBFF,stroke:#2B6CB0,color:#102A43,stroke-width:2px
+    classDef service fill:#E6FFFA,stroke:#2C7A7B,color:#153E3E,stroke-width:2px
+    classDef contract fill:#FEFCBF,stroke:#B7791F,color:#744210,stroke-width:2px
+    classDef current fill:#F0FFF4,stroke:#2F855A,color:#1C4532,stroke-width:2px
+    classDef future fill:#FAF5FF,stroke:#805AD5,color:#44337A,stroke-width:2px
+
+    UI["WinUI MainPage + MainViewModel<br/>menu lingua, binding e refresh"]
+    Service["ITranslationService<br/>cache, cultura, formattazione e fallback"]
+    Provider["IDataProvider&lt;TranslationCatalog&gt;<br/>ITranslationDataProvider"]
+    Json["JsonTranslationDataProvider<br/>translations.json"]
+    Sql["SqlTranslationDataProvider<br/>implementazione futura"]
+    Db[("Database traduzioni")]
+
+    UI -->|codici semantici → testo| Service
+    Service -->|LoadAsync| Provider
+    Provider -->|implementazione attuale| Json
+    Provider -. implementazione futura .-> Sql
+    Sql -. query .-> Db
+
+    class UI ui
+    class Service service
+    class Provider contract
+    class Json current
+    class Sql,Db future

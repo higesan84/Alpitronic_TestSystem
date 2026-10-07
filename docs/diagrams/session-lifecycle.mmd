@@ -1,0 +1,41 @@
+%% Visualizza i gate che impediscono di trasformare una prova incompleta in PASS/FAIL.
+flowchart TD
+    classDef startend fill:#1A202C,stroke:#1A202C,color:#FFFFFF,stroke-width:2px
+    classDef process fill:#E6FFFA,stroke:#2C7A7B,color:#153E3E,stroke-width:2px
+    classDef decision fill:#FEFCBF,stroke:#B7791F,color:#744210,stroke-width:2px
+    classDef io fill:#EBF8FF,stroke:#3182CE,color:#1A365D,stroke-width:2px
+    classDef ok fill:#F0FFF4,stroke:#38A169,color:#22543D,stroke-width:2px
+    classDef fail fill:#FFF5F5,stroke:#E53E3E,color:#742A2A,stroke-width:2px
+
+    A([Operatore inserisce seriale<br/>e avvia il test]) --> B["LoadingSetup<br/>scarica setup dal MES"]
+    B --> C{"Setup valido e disponibile?"}
+    C -- "Sì" --> D["Connecting<br/>crea e connette DUT + TS HW"]
+    C -- "No" --> X([Errore sessione])
+    D --> E{"Entrambi connessi?"}
+    E -- "Sì" --> F["Starting<br/>arma TS HW, poi invia start al DUT"]
+    E -- "No" --> X
+    F --> G{"Start confermato?"}
+    G -- "Sì" --> H["Monitoring<br/>legge i due stream in concorrenza"]
+    G -- "No" --> X
+    H --> I["Aggiorna live UI<br/>DUT dichiarato · TS HW misurato"]
+    I --> J{"Durata conclusa<br/>o stop controllato?"}
+    J -- "No" --> H
+    J -- "Sì" --> K{"Tutte le coppie complete<br/>e correlate per Sequence?"}
+    K -- "No" --> X
+    K -- "Sì" --> L["Evaluating<br/>verifica ogni coppia e tolleranza"]
+    L --> M{"Tutti i check<br/>entro tolleranza?"}
+    M -- "Sì" --> N["Risultato PASS"]
+    M -- "No" --> O["Risultato FAIL"]
+    N --> P["UploadingResult<br/>invia dati tracciabili al MES"]
+    O --> P
+    P --> Q{"MES conferma upload?"}
+    Q -- "Sì" --> R([Sessione completata])
+    Q -- "No" --> S["Persisti outbox locale<br/>stato PendingUpload"]
+    S --> T([Test concluso; upload da ritentare])
+
+    class A,R,T startend
+    class B,D,F,H,I,L,P,S process
+    class C,E,G,J,K,M,Q decision
+    class N,O ok
+    class X fail
+    class O fail

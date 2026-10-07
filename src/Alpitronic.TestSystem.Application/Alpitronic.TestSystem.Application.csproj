@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Alpitronic.TestSystem.Domain\Alpitronic.TestSystem.Domain.csproj" />
+  </ItemGroup>
+</Project>

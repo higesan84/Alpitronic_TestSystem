@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <AssemblyName>Alpitronic.TestSystem.MesMock.Api</AssemblyName>
+    <RootNamespace>Alpitronic.TestSystem.MesMock.Api</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Alpitronic.TestSystem.Mes.Contracts/Alpitronic.TestSystem.Mes.Contracts.csproj" />
+  </ItemGroup>
+</Project>

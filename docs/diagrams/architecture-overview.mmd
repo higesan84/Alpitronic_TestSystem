@@ -1,0 +1,57 @@
+%% Il diagramma rende visibili confini e verso delle dipendenze; non descrive classi nel dettaglio.
+flowchart LR
+    classDef ui fill:#DCEBFF,stroke:#2B6CB0,color:#102A43,stroke-width:2px
+    classDef app fill:#E6FFFA,stroke:#2C7A7B,color:#153E3E,stroke-width:2px
+    classDef domain fill:#F0FFF4,stroke:#2F855A,color:#1C4532,stroke-width:2px
+    classDef infra fill:#FFF5F5,stroke:#C53030,color:#742A2A,stroke-width:2px
+    classDef external fill:#FAF5FF,stroke:#805AD5,color:#44337A,stroke-width:2px
+
+    subgraph UI["WinUI 3 — Presentation"]
+        View["MainPage<br/>binding e comandi"]
+        VM["MainViewModel<br/>DispatcherQueue + stato UI"]
+        View <--> VM
+    end
+
+    subgraph APP["Application — Caso d'uso"]
+        Orch["ChargingTestOrchestrator"]
+        Monitor["ReadingMonitor<br/>Channel + stream concorrenti"]
+        Ports["Porte applicative<br/>IMesGateway · IConnectorFactory"]
+    end
+
+    subgraph DOMAIN["Domain — Regole pure"]
+        State["TestSessionStateMachine"]
+        Eval["ResultEvaluator"]
+        Models["Misure · specifiche · risultati<br/>contratti per ruolo"]
+    end
+
+    subgraph INFRA["Infrastructure — Adapter"]
+        Mes["HttpMesGateway<br/>GET setup · PUT result · mapper"]
+        Contracts["Alpitronic.TestSystem.Mes.Contracts<br/>DTO JSON wire"]
+        Factory["Connector factory / registry"]
+        Adapters["Adapter CAN · Modbus TCP · MQTT<br/>oppure MockTestScenario"]
+    end
+
+    MES[("MES REST API<br/>reale o MesMock.Api")]
+    DUT[("DUT")]
+    TSHW[("TS HW\nreference meter")]
+
+    VM -->|RunAsync + progress| Orch
+    Orch --> Monitor
+    Orch --> Ports
+    Orch --> State
+    Orch --> Eval
+    Monitor --> Models
+    Eval --> Models
+    Ports --> Mes
+    Ports --> Factory
+    Mes -.->|serializza/mappa| Contracts
+    Mes -->|HTTPS REST API| MES
+    Factory --> Adapters
+    Adapters <-->|CAN / MQTT| DUT
+    Adapters <-->|Modbus TCP| TSHW
+
+    class View,VM ui
+    class Orch,Monitor,Ports app
+    class State,Eval,Models domain
+    class Mes,Contracts,Factory,Adapters infra
+    class MES,DUT,TSHW external

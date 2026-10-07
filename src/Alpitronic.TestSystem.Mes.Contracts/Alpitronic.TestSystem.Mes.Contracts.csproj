@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Alpitronic.TestSystem.Mes.Contracts</AssemblyName>
+    <RootNamespace>Alpitronic.TestSystem.Mes.Contracts</RootNamespace>
+  </PropertyGroup>
+</Project>
