@@ -60,7 +60,7 @@ La [wiki interna](docs/wiki/README.md) raccoglie ragioni, trade-off, invarianti 
 
 ## Decisioni importanti
 
-- **WinUI 3, non WPF.** È il framework richiesto dal brief e rende l'output conforme al deliverable.
+- **WinUI 3** È il framework richiesto dal brief e rende l'output conforme al deliverable.
 - **Procedure nel layer Application.** Il Domain contiene dati, invarianti e calcolo PASS/FAIL; l'orchestrazione ha I/O e non deve vivere nel Model.
 - **Contratto REST MES fuori dal Domain.** `MesSessionSetupDto` vive in `Alpitronic.TestSystem.Mes.Contracts`; `MesMapper` lo traduce in `TestSessionSetup`.
 - **Scenari demo espliciti.** I bottoni di simulazione per test MES mancante e letture divergenti usano sempre mock locali, anche quando lo scenario normale è configurato verso una API REST.
