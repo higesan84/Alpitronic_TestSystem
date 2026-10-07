@@ -27,7 +27,12 @@ src/
   Alpitronic.TestSystem.MesMock.Api/     # Minimal API ASP.NET Core per dimostrare il confine REST
   Alpitronic.TestSystem.WinUI/           # WinUI 3: View XAML, ViewModel MVVM, composition root
 tests/Alpitronic.TestSystem.Tests/       # Unit test dominio, mock connector e orchestratore
-docs/                         # Rationale, decisioni e roadmap adapter
+docs/                                    # Rationale, decisioni e roadmap adapter
+  wiki                                   # Wiki di progetto
+  diagrams                               # Diagrammi di flusso e logica di implementazione
+  presentations                          # Presentazione del progetto
+  misc                                   # Documenti correlati
+  
 ```
 
 ## Flowchart di riferimento
